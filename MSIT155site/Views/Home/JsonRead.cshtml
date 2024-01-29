@@ -1,0 +1,32 @@
+﻿
+@{
+    ViewData["Title"] = "JsonRead";
+}
+
+<h1>JsonRead</h1>
+<ul class ="list">
+    
+</ul>
+@section Scripts{
+    <script>
+        const emps = [{ "name": "Tom", "workYears": 3, "salary": 35000 },
+        { "name": "Jack", "workYears": 5, "salary": 40000 },
+        { "name": "Mary", "workYears": 7, "salary": 45000 }];
+
+        // for (let i = 0; i < emps.length; i++) {
+        //     console.log(emps[i].name)
+        //     console.log(emps[i].workYears)
+        //     console.log(emps[i].salary)
+        // }
+        
+        var emplist = document.querySelector('.list');
+        const empli = emps.map(emps => {
+            return
+            `
+                               <li>${emps.name},${emps.workYears},${emps.salary}<li>
+                    `
+        });
+
+        emplist.innerHTML = empli.join("");
+    </script>
+}
