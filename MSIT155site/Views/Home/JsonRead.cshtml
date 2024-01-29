@@ -4,11 +4,12 @@
 }
 
 <h1>JsonRead</h1>
-<ul class ="list">
-    
+<ul id ="list">  
 </ul>
 @section Scripts{
     <script>
+        const emplist = document.querySelector('#list');
+
         const emps = [{ "name": "Tom", "workYears": 3, "salary": 35000 },
         { "name": "Jack", "workYears": 5, "salary": 40000 },
         { "name": "Mary", "workYears": 7, "salary": 45000 }];
@@ -18,14 +19,15 @@
         //     console.log(emps[i].workYears)
         //     console.log(emps[i].salary)
         // }
-        
-        var emplist = document.querySelector('.list');
-        const empli = emps.map(emps => {
-            return
-            `
-                               <li>${emps.name},${emps.workYears},${emps.salary}<li>
-                    `
+
+
+        const empli = emps.map(emp => {
+            return( `
+              <li>${emp.name},${emp.workYears},${emp.salary}</li>
+             `)
+           
         });
+        console.log(empli);
 
         emplist.innerHTML = empli.join("");
     </script>
