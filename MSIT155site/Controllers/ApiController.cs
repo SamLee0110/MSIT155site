@@ -22,15 +22,23 @@ namespace MSIT155site.Controllers
             return Content("Content 測試!","text/plain",Encoding.UTF8);
            // return View();
         }
-        public IActionResult Register(userDTO _user)
-        {
-            if (string.IsNullOrEmpty(_user.Name))
-            {
-                _user.Name = "guest";
-            }
-            return Content($"Hello {_user.Name},您{_user.Age}歲了","text/plain",Encoding.UTF8);
+        public IActionResult Register(Member _member)
+        {            
+            return Content($"Hello {_member.Name},您{_member.Age}歲了,電子郵件是{_member.Email}", "text/plain", Encoding.UTF8);
         }
+        public IActionResult CheckAccount(Member _member)
+        {
+            var m =_context.Members.FirstOrDefault(member => member.Name == _member.Name);
 
+            if (m != null) { 
+            return Content("用戶已經存在,請重新確認", "text/plain", Encoding.UTF8);
+            }
+            else
+            {
+            return Content("此姓名可以使用", "text/plain", Encoding.UTF8);
+            }
+            
+        }
         public IActionResult Cities()
         {
             var cities = _context.Addresses.Select(c => c.City).Distinct();

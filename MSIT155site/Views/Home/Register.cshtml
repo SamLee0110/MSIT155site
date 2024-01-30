@@ -32,12 +32,47 @@
 
 @section Scripts{
     <script>
-        (async () => {
-            const url = '@Url.Content("~/api/Register")?name=roger&age=31';
-            const response = await fetch(url);
+        const username = document.getElementById('userName');
+        const useremail = document.getElementById('UserEmail');
+        const userage = document.getElementById('userAge');
+        const divWarning = document.getElementById('divWarning');
+        const form = document.getElementById('userForm');
+        const btnSubmit = document.getElementById('button1');
+        const div1 = document.getElementById('div1');
+        // (async () => {
+        //     const url = '@Url.Content("~/api/Register")?name=roger&age=31';
+        //     const response = await fetch(url);
+        //     const data = await response.text();
+        //     console.log(data);
+        // })();
+        username.addEventListener('blur', async () => {
+            if (username.value) { 
+                const url = `@Url.Content("~/api/CheckAccount")?Name=${username.value}`
+            const response =await fetch(url);
             const data = await response.text();
-            console.log(data);
-        })();
+                btnSubmit.disabled = (data !== `此姓名可以使用`);
+                divWarning.innerHTML = data;
+            }
+        })
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const url = `@Url.Content("~/api/Register")?Name=${username.value}&Email=${useremail.value}&Age=${userage.value}`;
+
+            try {
+                const responseII = await fetch(url);
+
+                if (!responseII.ok) {
+                    throw new Error(`錯誤! 代碼: ${responseII.status}`);
+                }
+
+                const dataII = await responseII.text();
+                // console.log(dataII);
+                div1.innerHTML = dataII;
+            } catch (error) {
+                console.error('錯誤代碼:', error);
+            }
+        })
         
     </script>
 }
