@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using MSIT155site.Models;
+using System.Text;
 
 namespace MSIT155site.Controllers
 {
@@ -11,7 +12,8 @@ namespace MSIT155site.Controllers
         }
         public IActionResult Index()
         {
-            return View();
+            return Content("Content 測試!","text/plain",Encoding.UTF8);
+           // return View();
         }
 
         public IActionResult Cities()
