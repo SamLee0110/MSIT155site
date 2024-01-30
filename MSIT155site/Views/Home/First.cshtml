@@ -1,0 +1,95 @@
+﻿
+@{
+    ViewData["Title"] = "First";
+}
+
+<h1>First Ajax Demo</h1>
+<input type="button" class="btn btn-primary mb-3" value="Ajax 啟動!" id="buttonStart" />
+<input type="button" class="btn btn-primary mb-3" value="Ajax 停止!" id="buttonStop" />
+<img src="~/images/rat.gif" id="loadimg" style="display:none" />
+<div class="alert alert-info" id="divInfo"></div>
+
+@section Scripts{
+    <script>
+        const btnstart = document.querySelector('#buttonStart');
+        const btnstop = document.querySelector('#buttonStop');
+        const divinfo = document.querySelector('#divInfo');
+        const loadimg = document.querySelector('#loadimg');
+
+        btnstop.addEventListener('click', () => {
+            if (abortController) { 
+            abortController.abort()
+        }
+        })
+
+         btnstart.addEventListener('click',async()=>{
+             try {
+                 loadimg.style.display = "block";
+                 btnstart.setAttribute("disabled", "disabled");
+                 btnstart.value="執行中..."
+
+                 abortController = new AbortController;
+                 const signal = abortController.signal;
+
+                 const response = await fetch('@Url.Content("~/api/index")', {signal});
+                 const data =await response.text();
+                 
+                 if (!response.ok) {
+                     throw new Error(`${response.status}`)
+                 }
+                divinfo.innerHTML = `<h2>${data}</h2>`;
+
+                setTimeout(()=>{
+                    abortController.abort()
+                }, 3000)
+
+             } catch(error) {                 
+                 if (error.name === 'AbortError') {
+                     divinfo.innerHTML = `<h2>伺服器忙碌中，請稍後在操作...</h2>`
+                 } else { divinfo.innerHTML = `<h2>錯誤，錯誤代號：${error.message}</h2>` };
+             }finally{
+                loadimg.style.display = "none";
+                 console.log('finish');
+                 btnstart.removeAttribute("disabled");
+                btnstart.value = "Ajax 啟動!"
+             }
+
+
+            
+
+
+
+
+
+
+
+
+
+
+
+        //     try {
+        //         fetch('@Url.Content("~/api/index")')
+        //             .then(response => {
+        //                 if (!response.ok) {
+        //                     throw new Error(`錯誤,錯誤代碼:${response.status}`)
+        //                 }
+        //                 response.headers.forEach((value, name) =>
+        //                     console.log(`${name}:${value}`)
+        //                 )
+        //                 console.log(`ok:${response.ok}`)
+        //                 console.log(`content-length:${response.headers.get('Content-Length')}`)
+        //                 console.log(response);
+        //                 return response.text();
+        //             })
+        //             .then(data => {
+        //                 console.log(data);
+        //                 divinfo.innerHTML = `<h2>${data}</h2>`;
+        //             })
+        //     } catch(Error) {
+        //         divinfo.innerHTML = `<h2>${data}</h2>`
+        //     } finally {
+
+        //     }
+        })
+    </script>
+}

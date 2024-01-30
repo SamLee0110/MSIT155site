@@ -21,6 +21,13 @@ namespace MSIT155site.Controllers
         {
             return View();
         }
+        public IActionResult First()
+        {
+            return View();
+        }
+        public IActionResult Register() {
+            return View();
+        }
         public IActionResult Travel()
         {
             return View();
