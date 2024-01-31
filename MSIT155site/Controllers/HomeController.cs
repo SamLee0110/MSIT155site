@@ -36,6 +36,10 @@ namespace MSIT155site.Controllers
         {
             return View();
         }
+        public IActionResult Avatar()
+        {
+            return View();
+        }
         public IActionResult Privacy()
         {
             return View();
