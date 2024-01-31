@@ -26,6 +26,16 @@ namespace MSIT155site.Controllers
         {            
             return Content($"Hello {_member.Name},您{_member.Age}歲了,電子郵件是{_member.Email}", "text/plain", Encoding.UTF8);
         }
+        public IActionResult District(string city)
+        {
+            var districts = _context.Addresses.Where(c => c.City == city ).Select(s=>s.SiteId).Distinct();
+            return Json(districts);
+        }
+        public IActionResult Road(string city,string sitId)
+        {
+            var roads = _context.Addresses.Where(c => c.City == city && c.SiteId == sitId).Select(r=>r.Road).Distinct();
+            return Json(roads);
+        }
         public IActionResult CheckAccount(Member _member)
         {
             var m =_context.Members.FirstOrDefault(member => member.Name == _member.Name);

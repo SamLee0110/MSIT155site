@@ -4,15 +4,19 @@
 }
 
 <h1>Address</h1>
-<select id="addresslist">
-    <option value="1">item1</option>
-    <option value="2">item1</option>
-    <option value="3">item1</option>
+<select id="addresslist">   
+</select>
+<select id="districtlist">
+</select>
+<select id="roadlist">
 </select>
 
 @section Scripts{
     <script>
         const adlist = document.getElementById('addresslist');
+        const dislist = document.getElementById('districtlist');
+        const rdlist = document.getElementById('roadlist');
+
         (async () => {
             const url = '@Url.Content("~/api/cities")';
             const response = await fetch(url);
@@ -27,6 +31,40 @@
                 }
             )
             adlist.innerHTML = cities.join("");
+
+            loadDistricts();
         })();
+        
+        const loadDistricts = async () => {
+            const city = adlist.options[adlist.selectedIndex].value;
+            const url = `@Url.Content("~/api/district")?city=${city}`;
+            const response = await fetch(url);
+            const datas = await response.json();
+            const districts = datas.map(
+                district => {
+                    return (`<option value="${district}">${district}</option>`)
+                }
+            )
+            dislist.innerHTML = districts.join("");
+            loadRoad();
+        }
+
+        adlist.addEventListener('change', loadDistricts);
+
+        const loadRoad = async () => {
+            const city = adlist.options[adlist.selectedIndex].value;
+            const siteid = dislist.options[dislist.selectedIndex].value;
+
+            const url = `@Url.Content("~/api/road")?city=${city}&sitid=${siteid}`;
+            const response = await fetch(url);
+            const datas = await response.json();
+            const roads = datas.map(
+                road => {
+                    return (`<option value="${road}">${road}</option>`)
+                }
+            )
+            rdlist.innerHTML = roads.join("");
+        }
+        dislist.addEventListener('change', loadRoad);
     </script>
 }

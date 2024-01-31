@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using MSIT155site.Models;
 using System.Diagnostics;
 
@@ -7,10 +8,12 @@ namespace MSIT155site.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        public MyDBContext _context;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, MyDBContext context)
         {
             _logger = logger;
+            _context = context;
         }
 
         public IActionResult Index()
@@ -32,6 +35,7 @@ namespace MSIT155site.Controllers
         {
             return View();
         }
+        
         public IActionResult Travel()
         {
             return View();

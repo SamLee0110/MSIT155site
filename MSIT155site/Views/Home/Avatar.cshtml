@@ -10,7 +10,7 @@
 <script>
     const img = document.getElementById('img1');
     (async() => {
-        const response = await fetch('@Url.Content("~/api/avatar")');
+        const response = await fetch('@Url.Content("~/api/avatar/4")');
         const data = await response.blob();
         img.src = URL.createObjectURL(data);
     })();
