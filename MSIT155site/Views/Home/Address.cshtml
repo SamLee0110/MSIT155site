@@ -1,0 +1,32 @@
+﻿
+@{
+    ViewData["Title"] = "Address";
+}
+
+<h1>Address</h1>
+<select id="addresslist">
+    <option value="1">item1</option>
+    <option value="2">item1</option>
+    <option value="3">item1</option>
+</select>
+
+@section Scripts{
+    <script>
+        const adlist = document.getElementById('addresslist');
+        (async () => {
+            const url = '@Url.Content("~/api/cities")';
+            const response = await fetch(url);
+            if (!response.ok) {
+                console.log(`錯誤:${response.status}`)
+                return
+            }
+            const datas = await response.json();
+            const cities =datas.map(
+                city => {
+                    return (`<option value="${city}">${city}</option>`)
+                }
+            )
+            adlist.innerHTML = cities.join("");
+        })();
+    </script>
+}

@@ -28,6 +28,10 @@ namespace MSIT155site.Controllers
         public IActionResult Register() {
             return View();
         }
+        public IActionResult Address()
+        {
+            return View();
+        }
         public IActionResult Travel()
         {
             return View();
