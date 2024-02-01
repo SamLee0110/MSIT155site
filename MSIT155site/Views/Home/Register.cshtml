@@ -33,8 +33,8 @@
 @section Scripts{
     <script>
         const username = document.getElementById('userName');
-        const useremail = document.getElementById('UserEmail');
-        const userage = document.getElementById('userAge');
+        // const useremail = document.getElementById('UserEmail');
+        // const userage = document.getElementById('userAge');
         const divWarning = document.getElementById('divWarning');
         const form = document.getElementById('userForm');
         const btnSubmit = document.getElementById('button1');
@@ -57,21 +57,35 @@
         form.addEventListener('submit', async (event) => {
             event.preventDefault();
 
-            const url = `@Url.Content("~/api/Register")?Name=${username.value}&Email=${useremail.value}&Age=${userage.value}`;
+            // const url = `@Url.Content("~/api/Register")?Name=${username.value}&Email=${useremail.value}&Age=${userage.value}`;
+            
+            // try {
+            //     const responseII = await fetch(url);
 
-            try {
-                const responseII = await fetch(url);
+            //     if (!responseII.ok) {
+            //         throw new Error(`錯誤! 代碼: ${responseII.status}`);
+            //     }
 
-                if (!responseII.ok) {
-                    throw new Error(`錯誤! 代碼: ${responseII.status}`);
-                }
+            //     const dataII = await responseII.text();
+            //     // console.log(dataII);
+            //     div1.innerHTML = dataII;
+            // } catch (error) {
+            //     console.error('錯誤代碼:', error);
+            // }
 
-                const dataII = await responseII.text();
-                // console.log(dataII);
-                div1.innerHTML = dataII;
-            } catch (error) {
-                console.error('錯誤代碼:', error);
-            }
+            const formData= new FormData(document.getElementById('userForm'))
+            // for (const pair of formData.entries()) {
+            //     console.log(pair[0]);
+            //     console.log(pair[1]);
+                
+            // }
+            const url = `@Url.Content("~/api/Register")`
+            const response=await fetch(url,{
+                method:'POST',
+                body: formData
+            })
+            const data = await response.text();
+            div1.innerHTML = data;
         })
         
     </script>
