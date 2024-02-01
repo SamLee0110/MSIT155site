@@ -21,6 +21,18 @@
                 <label for="userAge" class="form-label">年紀：</label>
                 <input type="number" class="form-control" id="userAge" name="Age">
             </div>
+            <div class="mb-3">
+                <label for="Password" class="form-label">密碼：</label>
+                <input type="text" class="form-control" id="Password" name="Password">
+            </div>
+            <div class="mb-3">
+                <label for="Salt" class="form-label">密碼確認：</label>
+                <input type="number" class="form-control" id="Salt" name="Salt">
+            </div>
+            <div class="input-group mb-3">
+                <label class="input-group-text" for="inputGroupFile01">上傳頭貼</label>
+                <input type="file" class="form-control" id="inputGroupFile01" name="Avatar">
+            </div>
 
             <button id="button1" type="submit" class="btn btn-primary">送出</button>
         </form>
@@ -33,6 +45,7 @@
 @section Scripts{
     <script>
         const username = document.getElementById('userName');
+     
         // const useremail = document.getElementById('UserEmail');
         // const userage = document.getElementById('userAge');
         const divWarning = document.getElementById('divWarning');
@@ -50,10 +63,19 @@
                 const url = `@Url.Content("~/api/CheckAccount")?Name=${username.value}`
             const response =await fetch(url);
             const data = await response.text();
-                btnSubmit.disabled = (data !== `此姓名可以使用`);
-                divWarning.innerHTML = data;
+
+                if (data === "1") {
+                    divWarning.innerHTML = "用戶已經存在,請重新確認";
+                }
+                else {
+                    divWarning.innerHTML = "此姓名可以使用";
+                }
+
+                btnSubmit.disabled = (data === "1");
+
             }
         })
+      
         form.addEventListener('submit', async (event) => {
             event.preventDefault();
 
