@@ -29,6 +29,9 @@
         <input type="search" class="form-control" placeholder="景點搜尋" id="inputKeyword" />
         <div class="list-group" id="divResult"></div>
     </div>
+    <div class="btn-group" role="group" aria-label="Basic radio toggle button group" id="catelist">
+        
+    </div>
 </div>
 <div id="div1" class="row row-cols-1 row-cols-md-3 g-4"></div>
 @section Scripts{
@@ -39,6 +42,8 @@
         const spotsort = document.getElementById('spotsort');
         const search = document.getElementById('inputKeyword');
         const divresult = document.getElementById('divResult');
+        const catelist = document.getElementById('catelist');
+        
 
         const searchData = {
             "categoryId": 0,
@@ -58,7 +63,6 @@
             const data = await response.json();
            // console.log(data.spotsResult);
                
-
         const divSpots = data.spotsResult.map(spot => {
             const { spotId, spotTitle, spotImage, address, spotDescription } = spot;
             return(
@@ -80,6 +84,18 @@
             )})
            
         div1.innerHTML = divSpots.join("");
+            
+            const divcate = data.categoryResult.map(cateresult => {
+                const { categoryId, categoryName } = cateresult;
+                return (
+                    `
+                     <input type="radio" class="btn-check" name="btnradio" id="btnradio${categoryId}" autocomplete="off" value="${categoryId}" >
+                     <label class="btn btn-outline-primary" for="btnradio${categoryId}" >${categoryId}.${categoryName}</label>
+                `
+                )
+            })
+
+            catelist.innerHTML = divcate.join("");
 
             let liPaging = "";
             for (let i = 1; i <= data.totalPages; i++) {
@@ -87,6 +103,17 @@
             }            
             ul1.innerHTML = liPaging;
         };
+
+        catelist.addEventListener('change',()=>{
+            let picked = document.querySelector('input[name="btnradio"]:checked').value;
+            if (searchData.categoryId != picked) {
+                searchData.categoryId = picked;                
+            }else{
+                searchData.categoryId = 0;
+            }                
+         //   searchData.categoryId = catelist.value;
+            loadSpots();
+        })
 
         const pagingHandler = page => {
             searchData.page = page;

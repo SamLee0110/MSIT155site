@@ -101,6 +101,7 @@ namespace MSIT155site.Controllers
         public IActionResult Spots([FromBody]SearchDTO _search) {
 
             var spots =_search.CategoryId == 0 ? _context.SpotImagesSpots : _context.SpotImagesSpots.Where(s=>s.CategoryId ==_search.CategoryId);
+            var cates = _context.Categories;
 
             if(!string.IsNullOrEmpty(_search.Keyword))
             {
@@ -133,7 +134,7 @@ namespace MSIT155site.Controllers
             SpotsPagingDTO spotsPaging = new SpotsPagingDTO();
             spotsPaging.TotalPages = totalPages;
             spotsPaging.SpotsResult =spots.ToList();
-
+            spotsPaging.CategoryResult = cates.ToList();
             return Json(spotsPaging);
         }
 

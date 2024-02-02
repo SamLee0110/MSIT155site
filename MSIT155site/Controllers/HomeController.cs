@@ -62,5 +62,10 @@ namespace MSIT155site.Controllers
         {
             return View();
         }
+        public IActionResult Cors()
+        {
+            return View(); 
+            
+        }
     }
 }
